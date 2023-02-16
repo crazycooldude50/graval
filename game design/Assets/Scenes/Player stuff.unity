@@ -219,7 +219,6 @@ GameObject:
   - component: {fileID: 287395672}
   - component: {fileID: 287395671}
   - component: {fileID: 287395670}
-  - component: {fileID: 287395674}
   m_Layer: 0
   m_Name: Object
   m_TagString: Gravitizable
@@ -331,17 +330,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!247 &287395674
-ConstantForce2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 287395669}
-  m_Enabled: 1
-  m_Force: {x: 0, y: 2}
-  m_RelativeForce: {x: 0, y: 0}
-  m_Torque: 0
 --- !u!1 &597811827
 GameObject:
   m_ObjectHideFlags: 0

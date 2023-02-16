@@ -138,6 +138,8 @@ public class PlayerController : MonoBehaviour
         rb2d.velocity = velocity;
     }
 
+    private int flipped = 1;
+
     private void CheckInput()
     {
         moveInput = Input.GetAxisRaw("Horizontal");
@@ -152,11 +154,18 @@ public class PlayerController : MonoBehaviour
         // Turn Around
         if (moveInput == 1 && moveInput != -1)
         {
+            flipped = 1;
             transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
         else if (moveInput == -1 && moveInput != 1)
         {
+            flipped = -1;
             transform.localRotation = Quaternion.Euler(0, -180, 0);
         }
+    }
+
+    public int GetFlipped()
+    {
+        return flipped;
     }
 }
