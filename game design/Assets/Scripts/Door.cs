@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button : MonoBehaviour
+public class Door : MonoBehaviour
 {
-    SpriteRenderer spriteRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,13 +13,11 @@ public class Button : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-   /* 
-    void OnTriggerEnter(Collider other)
+    /*void openDoor()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.color = Color.red;
+        Door.SetActive(true);
     }
-   */
+    */
 }
