@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundDecceleration = 600;
     [SerializeField] public bool isGrounded = false;
     [SerializeField] private float terminalVelocity = -400f;
-    [SerializeField] private Vector2 gravity = new Vector2(0, -2);
 
 
     private Rigidbody2D rb2d;
@@ -33,7 +32,6 @@ public class PlayerController : MonoBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
         bc2d = GetComponent<BoxCollider2D>();
-        Physics2D.gravity = gravity;
 
     }
 
@@ -151,17 +149,33 @@ public class PlayerController : MonoBehaviour
         {
             velocity.x = Mathf.MoveTowards(velocity.x, 0, groundDecceleration * Time.deltaTime);
         }
-        // Turn Around
-        if (moveInput == 1 && moveInput != -1)
+        // Turn Around, only if no arrow keys are pressed, and no object is controlled
+        if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.Space))
         {
-            flipped = 1;
+            if (moveInput == 1 && moveInput != -1)
+            {
+                flipped = 1;
+                Flip(1);
+            }
+            else if (moveInput == -1 && moveInput != 1)
+            {
+                flipped = -1;
+                Flip(-1);
+            }
+        }
+    }
+
+    public void Flip(int dir)
+    {
+        if (dir > 0)
+        {
             transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
-        else if (moveInput == -1 && moveInput != 1)
+        else if (dir < 0)
         {
-            flipped = -1;
             transform.localRotation = Quaternion.Euler(0, -180, 0);
         }
+        flipped = dir;
     }
 
     public int GetFlipped()

@@ -17,7 +17,8 @@ public class GravityController : MonoBehaviour
     {
         foreach (GameObject i in controlled)
         {
-            i.transform.position += gravity;
+            i.GetComponent<Rigidbody2D>().velocity = gravity;
+            //i.transform.position += gravity;
         }
     }
 }
