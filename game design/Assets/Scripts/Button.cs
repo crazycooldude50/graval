@@ -5,6 +5,7 @@ using UnityEngine;
 public class Button : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,7 @@ public class Button : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = Color.red;
+        updateTrigger(true);
     }
    */
 }
