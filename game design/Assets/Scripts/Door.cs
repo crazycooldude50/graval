@@ -8,7 +8,8 @@ public class Door : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        door.SetActive(true);
+
+        door.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
@@ -18,7 +19,7 @@ public class Door : MonoBehaviour
     }
     /*void openDoor()
     {
-        Door.SetActive(true);
+        door.gameObject.SetActive(true);
     }
     */
 }
