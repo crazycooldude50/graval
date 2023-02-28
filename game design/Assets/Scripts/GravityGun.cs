@@ -73,7 +73,17 @@ public class GravityGun : MonoBehaviour
         }
 
         // Flip player if aiming in opposite direction
-        if (aimDir.x != playerFlipped && aimDir.x != 0 && edited)
+        float beamDir = transform.parent.transform.right.x;
+        //Debug.Log(transform.parent.transform.right);
+        if (beamDir > 0)
+        {
+            beamDir = 1;
+        }
+        else if (beamDir < 0)
+        {
+            beamDir = -1;
+        }
+        if (beamDir != playerFlipped && aimDir.x != 0 && edited)
         {
             player.GetComponent<PlayerController>().Flip((int)aimDir.x);
         }
@@ -91,7 +101,10 @@ public class GravityGun : MonoBehaviour
         {
             // Raycast in one of 8 directions
             RaycastHit2D aimBeam = Physics2D.Raycast(barrel.transform.position, aimDir, maxBeamLength);
-            //Debug.Log(aimDir);
+
+            // Rotate gravity gun to one of 8 directions
+            transform.parent.transform.right = new Vector3(aimDir.x, aimDir.y, 0);
+
             // If it doens't hit anything, draw ray to aimDir, return out of method
             if (aimBeam.collider == null)
             {
@@ -127,6 +140,9 @@ public class GravityGun : MonoBehaviour
         {
             // Use line cast to beam End point
             RaycastHit2D aimBeam = Physics2D.Linecast(barrel.transform.position, beamEndPoint.transform.position);
+
+            // Rotate gravity gun to face beamEndPoint
+            transform.parent.transform.right = beamEndPoint.transform.position - transform.position;
 
             // If space is released, or the line cast hits a different object, or the object goes out of range,
             // remove the object from the controlled list and reparent to self.
