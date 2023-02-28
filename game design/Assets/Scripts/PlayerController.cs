@@ -22,17 +22,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundDecceleration = 600;
     [SerializeField] public bool isGrounded = false;
     [SerializeField] private float terminalVelocity = -400f;
+    [SerializeField] private float gravityStrength = -0.02f;
+
+    [SerializeField] private Vector2 groundVelocity = new Vector2(0, 0);
 
 
     private Rigidbody2D rb2d;
     private BoxCollider2D bc2d;
+
+    private GameObject hardHat;
 
 
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         bc2d = GetComponent<BoxCollider2D>();
-
+        hardHat = GameObject.Find("Hard Hat");
     }
 
     // Update is called once per frame
@@ -49,7 +54,6 @@ public class PlayerController : MonoBehaviour
         }
         CheckInput();
         Move();
-        
     }
 
     private bool CheckGrounded(int type)
@@ -76,6 +80,10 @@ public class PlayerController : MonoBehaviour
 
             if (raycastHitTest.collider != null)
             {
+                if (type == 0)
+                {
+                    groundVelocity = raycastHitTest.collider.gameObject.GetComponent<Rigidbody2D>().velocity;
+                }
                 return true;
             }
         }
@@ -120,7 +128,7 @@ public class PlayerController : MonoBehaviour
         {
             if (velocity.y > terminalVelocity)
             {
-                velocity.y += Physics2D.gravity.y;
+                velocity.y += /*Physics2D.gravity.y*/ gravityStrength;
             }
             else
             {
@@ -133,7 +141,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // Moving
-        rb2d.velocity = velocity;
+        rb2d.velocity = velocity + groundVelocity;
+        hardHat.transform.position = transform.position + new Vector3(0, 1.4f, 0);
     }
 
     private int flipped = 1;
