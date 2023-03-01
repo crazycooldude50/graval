@@ -23,9 +23,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public bool isGrounded = false;
     [SerializeField] private float terminalVelocity = -400f;
     [SerializeField] private float gravityStrength = -0.02f;
+    [SerializeField] private bool cantGoUp = false;
 
-    [SerializeField] private Vector2 groundVelocity = new Vector2(0, 0);
-
+    private Vector2 groundVelocity = new Vector2(0, 0);
+    [SerializeField] public Vector3 controlledGravity = new Vector3(0, 0, 0);
+    public Vector3 maxControlledGravity = new Vector3(0, 0, 0);
 
     private Rigidbody2D rb2d;
     private BoxCollider2D bc2d;
@@ -123,12 +125,13 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        cantGoUp = false;
         // Falling
         if (!isGrounded)
         {
             if (velocity.y > terminalVelocity)
             {
-                velocity.y += /*Physics2D.gravity.y*/ gravityStrength;
+                velocity.y += gravityStrength;
             }
             else
             {
@@ -139,9 +142,19 @@ public class PlayerController : MonoBehaviour
         {
             velocity.y = 0;
         }
+        if (isGrounded) {
+            if (-terminalVelocity > maxControlledGravity.y) {
+                cantGoUp = true;
+            }
+        }
 
-        // Moving
+        // Moving with ground
         rb2d.velocity = velocity + groundVelocity;
+        // Move according to controlled gravity
+        rb2d.velocity += new Vector2(controlledGravity.x, 0);
+        if (!cantGoUp) {
+            rb2d.velocity += new Vector2(0, controlledGravity.y);
+        }
         hardHat.transform.position = transform.position + new Vector3(0, 1.4f, 0);
     }
 
@@ -149,6 +162,11 @@ public class PlayerController : MonoBehaviour
 
     private void CheckInput()
     {
+        // Decrease controlled gravity constantly, If player is in gravity field strength would be refreshed
+        // So this has no downsides
+        controlledGravity.x = Mathf.MoveTowards(controlledGravity.x, 0, groundDecceleration * Time.deltaTime);
+
+
         moveInput = Input.GetAxisRaw("Horizontal");
         if (moveInput != 0)
         {
