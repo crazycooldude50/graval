@@ -23,17 +23,13 @@ public class GravityController : MonoBehaviour
             Vector3 velocity = i.GetComponent<Rigidbody2D>().velocity;
             if (i.name == "Player")
             {
-                velocity = i.GetComponent<PlayerController>().controlledGravity;
                 i.GetComponent<PlayerController>().maxControlledGravity = gravity;
-            }
-            velocity.x = Mathf.MoveTowards(velocity.x, gravity.x, acceleration);
-            velocity.y = Mathf.MoveTowards(velocity.y, gravity.y, acceleration);
-            if (i.name != "Player")
-            {
-                i.GetComponent<Rigidbody2D>().velocity = velocity;
+                i.GetComponent<PlayerController>().controlledGravityAcceleration = acceleration;
             }
             else {
-                i.GetComponent<PlayerController>().controlledGravity = velocity;
+                velocity.x = Mathf.MoveTowards(velocity.x, gravity.x, acceleration);
+                velocity.y = Mathf.MoveTowards(velocity.y, gravity.y, acceleration);
+                i.GetComponent<Rigidbody2D>().velocity = velocity;
             }
         }
     }

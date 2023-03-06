@@ -12,21 +12,20 @@ public class PlayerController : MonoBehaviour
 
 
     // Start is called before the first frame update
-    [SerializeField] private Vector2 velocity = new Vector2(0, 0);
-
-
+    [SerializeField] public Vector2 velocity = new Vector2(0, 0);
 
     private float moveInput;
     [SerializeField] private float speed = 150;
     [SerializeField] private float walkAcceleration = 1;
     [SerializeField] private float groundDecceleration = 600;
     [SerializeField] public bool isGrounded = false;
-    [SerializeField] private float terminalVelocity = -400f;
+    [SerializeField] public float terminalVelocity = -400f;
     [SerializeField] private float gravityStrength = -0.02f;
     [SerializeField] private bool cantGoUp = false;
 
     private Vector2 groundVelocity = new Vector2(0, 0);
-    [SerializeField] public Vector3 controlledGravity = new Vector3(0, 0, 0);
+    [SerializeField] private Vector3 controlledGravity = new Vector3(0, 0, 0);
+    public float controlledGravityAcceleration = 0f;
     public Vector3 maxControlledGravity = new Vector3(0, 0, 0);
 
     private Rigidbody2D rb2d;
@@ -138,13 +137,19 @@ public class PlayerController : MonoBehaviour
                 velocity.y = terminalVelocity;
             }
         }
-        else if (velocity.y < 0)
+        else if (velocity.y < 0 && maxControlledGravity.y == 0)
         {
             velocity.y = 0;
         }
         if (isGrounded) {
             if (-terminalVelocity > maxControlledGravity.y) {
                 cantGoUp = true;
+                controlledGravity.y = 0;
+            }
+            if (-terminalVelocity >= maxControlledGravity.y && maxControlledGravity.y > 0) 
+            {
+                velocity.y = -controlledGravity.y;
+                Debug.Log("Nope");
             }
         }
 
@@ -162,9 +167,31 @@ public class PlayerController : MonoBehaviour
 
     private void CheckInput()
     {
-        // Decrease controlled gravity constantly, If player is in gravity field strength would be refreshed
-        // So this has no downsides
-        controlledGravity.x = Mathf.MoveTowards(controlledGravity.x, 0, groundDecceleration * Time.deltaTime);
+        // Make controlled gravity approach the controller's force
+        if (maxControlledGravity.x != 0) 
+        {
+            controlledGravity.x = Mathf.MoveTowards(controlledGravity.x, maxControlledGravity.x, controlledGravityAcceleration * Time.deltaTime);
+        }
+        else 
+        {
+            controlledGravity.x = Mathf.MoveTowards(controlledGravity.x, 0, groundDecceleration * Time.deltaTime);
+        }
+        if (maxControlledGravity.y != 0 && maxControlledGravity.y > terminalVelocity) 
+        {
+            controlledGravity.y = Mathf.MoveTowards(controlledGravity.y, maxControlledGravity.y, controlledGravityAcceleration * Time.deltaTime);
+        }
+        else if (controlledGravity.y > gravityStrength && controlledGravity.y < -gravityStrength) {
+            controlledGravity.y = 0;
+        }
+        else if (controlledGravity.y > 0)
+        {
+            controlledGravity.y += gravityStrength;
+        }
+        else if (controlledGravity.y < 0)
+        {
+            controlledGravity.y -= gravityStrength;
+        }
+        
 
 
         moveInput = Input.GetAxisRaw("Horizontal");
