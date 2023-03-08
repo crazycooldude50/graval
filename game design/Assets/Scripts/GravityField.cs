@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class GravityField : MonoBehaviour
 {
-
-    private GravityController gravityController;
-
+    [SerializeField] private Vector3 gravity = new Vector3(0, 0, 0);
+    [SerializeField] private float gravityAcceleration = 1f;
+    
     // Start is called before the first frame update
     void Start()
     {
-        gravityController = GetComponent<GravityController>();
+
     }
 
     // Update is called once per frame
@@ -21,19 +21,13 @@ public class GravityField : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider) {
         if (collider.gameObject.tag == "Gravitizable") {
-            gravityController.controlled.Add(collider.gameObject);
-            collider.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0f; 
+            collider.gameObject.GetComponent<ControllableObject>().ControlGravity(gravity, gravityAcceleration, gameObject);
         }
     }
 
     void OnTriggerExit2D(Collider2D collider) {
         if (collider.gameObject.tag == "Gravitizable") {
-            gravityController.controlled.Remove(collider.gameObject);
-            collider.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1f;
-            if (collider.gameObject.name == "Player")
-            {
-                collider.gameObject.GetComponent<PlayerController>().maxControlledGravity = new Vector3(0, 0, 0);
-            }
+            collider.gameObject.GetComponent<ControllableObject>().ControlGravity(new Vector3(0, 0, 0), gravityAcceleration, gameObject);
         }
     }
 }

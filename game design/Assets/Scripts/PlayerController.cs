@@ -125,6 +125,7 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         cantGoUp = false;
+        /*
         // Falling
         if (!isGrounded)
         {
@@ -152,6 +153,8 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Nope");
             }
         }
+        */
+        rb2d.AddForce(new Vector3(0, -9.8f, 0));
 
         // Moving with ground
         rb2d.velocity = velocity + groundVelocity;
@@ -168,6 +171,7 @@ public class PlayerController : MonoBehaviour
     private void CheckInput()
     {
         // Make controlled gravity approach the controller's force
+        
         if (maxControlledGravity.x != 0) 
         {
             controlledGravity.x = Mathf.MoveTowards(controlledGravity.x, maxControlledGravity.x, controlledGravityAcceleration * Time.deltaTime);

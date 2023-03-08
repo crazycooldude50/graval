@@ -31,6 +31,17 @@ public class GravityGun : MonoBehaviour
     void Aim(Vector2 lastAimDir)
     {
         // Uses arrow keys to detect aim direction for gravity beam
+
+        /*
+        aimDir = new Vector2(Input.GetAxisRaw("HorizontalArrow"), Input.GetAxisRaw("VerticalArrow"));
+        bool edited = false;
+
+        if (aimDir != lastAimDir)
+        {
+            edited = true;
+        }
+        */
+        
         aimDir = new Vector2(0, 0);
         bool edited = false;
 
@@ -123,7 +134,6 @@ public class GravityGun : MonoBehaviour
 
                     controlling = true;
                     hitObject = aimBeam.collider.gameObject;
-                    //hitObject.GetComponent<ControllableObject>().ControlGravity(gravity, gravityAcceleration, gameObject);
                     // Move beamEndPoint to hit object, set it that as parent
                     beamEndPoint.transform.parent = aimBeam.collider.gameObject.transform;
                     beamEndPoint.transform.position = aimBeam.point;
@@ -135,6 +145,9 @@ public class GravityGun : MonoBehaviour
 
         else // if controlling
         {
+            // Apply Gravity Force to object
+            hitObject.GetComponent<ControllableObject>().ControlGravity(aimDir * gravityStrength, gravityAcceleration, gameObject);
+
             // Use line cast to beam End point
             RaycastHit2D aimBeam = Physics2D.Linecast(barrel.transform.position, beamEndPoint.transform.position);
 
