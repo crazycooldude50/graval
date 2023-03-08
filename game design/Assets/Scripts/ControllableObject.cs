@@ -8,6 +8,8 @@ public class ControllableObject : MonoBehaviour
     [SerializeField] private Vector2 velocity = new Vector2(0, 0);
     [SerializeField] private Vector2 deccelerationRate = new Vector2(5, 5);
 
+    [SerializeField] private float maxSpeed = 10f;
+
     public Vector2 controlledGravityAcceleration = new Vector2(0, 0);
     public Vector3 maxControlledGravity = new Vector3(0, 0, 0);
 
@@ -23,8 +25,8 @@ public class ControllableObject : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
-    {
+    void Update()
+    {/*
         velocity = GetComponent<Rigidbody2D>().velocity;
 
         // Disable physics gravity if controlled by player 
@@ -55,8 +57,9 @@ public class ControllableObject : MonoBehaviour
            velocity.y = Mathf.MoveTowards(velocity.y, 0, deccelerationRate.y);
         }
         
-        
-        GetComponent<Rigidbody2D>().velocity = velocity;
+        */
+        GetComponent<Rigidbody2D>().drag = (GetComponent<Rigidbody2D>().velocity.magnitude / maxSpeed);
+        GetComponent<Rigidbody2D>().AddForce(controlledGravityAcceleration * GetComponent<Rigidbody2D>().mass);
     }
 
     public void ControlGravity(Vector3 maxForce, float baseAcceleration, GameObject changer)

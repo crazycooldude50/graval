@@ -20,7 +20,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundDecceleration = 600;
     [SerializeField] public bool isGrounded = false;
     [SerializeField] public float terminalVelocity = -400f;
-    [SerializeField] private float gravityStrength = -0.02f;
+
+    // Basically determines the gravity of the player
+    [SerializeField] private float gravityStrength = -2f;
+
+
     [SerializeField] private bool cantGoUp = false;
 
     private Vector2 groundVelocity = new Vector2(0, 0);
@@ -154,15 +158,22 @@ public class PlayerController : MonoBehaviour
             }
         }
         */
-        rb2d.AddForce(new Vector3(0, -9.8f, 0));
 
+        rb2d.gravityScale = 0f;
+
+        rb2d.AddForce(new Vector3(0, gravityStrength, 0));
+
+
+        rb2d.velocity = new Vector2(velocity.x + groundVelocity.x, rb2d.velocity.y + groundVelocity.y);
+
+        /*
         // Moving with ground
         rb2d.velocity = velocity + groundVelocity;
         // Move according to controlled gravity
         rb2d.velocity += new Vector2(controlledGravity.x, 0);
         if (!cantGoUp) {
             rb2d.velocity += new Vector2(0, controlledGravity.y);
-        }
+        }*/
         hardHat.transform.position = transform.position + new Vector3(0, 1.4f, 0);
     }
 
