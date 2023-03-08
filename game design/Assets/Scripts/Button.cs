@@ -5,11 +5,13 @@ using UnityEngine;
 public class Button : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
+    public GameObject Door;
+    Door doorScript;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        doorScript = Door.GetComponent<Door>();
     }
 
     // Update is called once per frame
@@ -17,12 +19,12 @@ public class Button : MonoBehaviour
     {
         
     }
-   /* 
-    void OnTriggerEnter(Collider other)
+    
+    public void OnTriggerEnter2D(Collider2D other)
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = Color.red;
-        updateTrigger(true);
+        doorScript.updateTrigger(true);
     }
-   */
+   
 }

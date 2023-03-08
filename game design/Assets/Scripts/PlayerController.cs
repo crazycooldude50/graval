@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
 
             if (raycastHitTest.collider != null)
             {
-                if (type == 0)
+                if (type == 0 && raycastHitTest.collider.tag != "Win")
                 {
                     groundVelocity = raycastHitTest.collider.gameObject.GetComponent<Rigidbody2D>().velocity;
                 }
