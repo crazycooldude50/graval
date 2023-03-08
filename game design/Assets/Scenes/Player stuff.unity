@@ -352,6 +352,7 @@ GameObject:
   - component: {fileID: 480505357}
   - component: {fileID: 480505356}
   - component: {fileID: 480505355}
+  - component: {fileID: 480505359}
   m_Layer: 0
   m_Name: Static Sprite (1)
   m_TagString: Gravitizable
@@ -466,13 +467,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 480505354}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.8146, y: -0.9039, z: 0}
+  m_LocalPosition: {x: -0.47, y: -0.34, z: 0}
   m_LocalScale: {x: 3.6845295, y: 3.2921, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &480505359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480505354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7633035a096fc974fa2defe2cbfa9ee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocity: {x: 0, y: 0}
+  controlledGravityAcceleration: {x: 0, y: 0}
+  maxControlledGravity: {x: 0, y: 0, z: 0}
+  isControlledByGun: 0
 --- !u!1 &511224713
 GameObject:
   m_ObjectHideFlags: 0
@@ -1111,7 +1128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimDir: {x: 0, y: 0}
+  controlling: 0
   gravityStrength: 5
+  gravityAcceleration: 1
   maxBeamLength: 20
 --- !u!1 &1533846420
 GameObject:
