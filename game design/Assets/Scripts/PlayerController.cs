@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed = 150;
     [SerializeField] private float groundDecceleration = 600;
     public bool isGrounded = false;
+    public bool isWalled = false;
     [SerializeField] private float terminalVelocity = -400f;
 
     [SerializeField] public float maxSpeedX = 5f;
@@ -47,12 +48,13 @@ public class PlayerController : MonoBehaviour
     {
         rbVel = rb2d.velocity;
         isGrounded = CheckGrounded(0);
+        isWalled = CheckWalled();
         if (CheckGrounded(1))
         {
             force.y = 0;
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
         }
-        if (CheckWalled())
+        if (isWalled)
         {
             force.x = 0;
             rb2d.velocity = new Vector2(0, rb2d.velocity.y); ;
@@ -85,7 +87,7 @@ public class PlayerController : MonoBehaviour
 
             if (raycastHitTest.collider != null)
             {
-                if (type == 0 && raycastHitTest.collider.tag != "Win")
+                if (type == 0 && raycastHitTest.collider.tag != "Win" && raycastHitTest.collider.gameObject.name != "LevelTileMap")
                 {
                     groundVelocity = raycastHitTest.collider.gameObject.GetComponent<Rigidbody2D>().velocity;
                 }
@@ -97,7 +99,7 @@ public class PlayerController : MonoBehaviour
 
     private bool CheckWalled()
     {
-        float extraWidth = 0.1f;
+        float extraWidth = 0.01f;
 
         Vector2 currentPos;
         RaycastHit2D raycastHitTest = Physics2D.Raycast(new Vector2(0, 0), Vector2.down, 0);
@@ -185,7 +187,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            force.y = 0;
+            force.y = -0.5f;
         }
     }
 

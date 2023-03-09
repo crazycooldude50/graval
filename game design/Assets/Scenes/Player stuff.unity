@@ -186,7 +186,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3, y: 1.99}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -649,7 +649,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!61 &597811829
 BoxCollider2D:
@@ -711,6 +711,7 @@ MonoBehaviour:
   speed: 5
   groundDecceleration: 0.5
   isGrounded: 0
+  isWalled: 0
   terminalVelocity: -10
   maxSpeedX: 0.5
   gravityStrength: -2
@@ -1124,7 +1125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af66181f7c70ee54b86ce922670333fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: {x: 0, y: 2, z: 0}
+  gravity: {x: -2, y: 2, z: 0}
   gravityAcceleration: 1
 --- !u!1 &1520941173
 GameObject:

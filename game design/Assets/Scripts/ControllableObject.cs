@@ -51,6 +51,10 @@ public class ControllableObject : MonoBehaviour
                 rb2d.velocity = new Vector2(0, rb2d.velocity.y);
             }
         }
+        else
+        {
+            force.x = 0;
+        }
         
         force.y = maxControlledGravity.y;
         
@@ -58,7 +62,7 @@ public class ControllableObject : MonoBehaviour
         {
             if (gameObject.GetComponent<PlayerController>().isGrounded)
             {
-                force.y += gameObject.GetComponent<PlayerController>().gravityStrength;
+                force.y += gameObject.GetComponent<PlayerController>().gravityStrength + 0.5f;
             }
             else
             {
