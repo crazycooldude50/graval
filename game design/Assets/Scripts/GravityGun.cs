@@ -138,6 +138,7 @@ public class GravityGun : MonoBehaviour
                     beamEndPoint.transform.parent = aimBeam.collider.gameObject.transform;
                     beamEndPoint.transform.position = aimBeam.point;
                     beamEndPoint.transform.position += extraDistance * new Vector3(aimDir.x, aimDir.y, 0);
+                    hitObject.GetComponent<ControllableObject>().isControlledByGun = true;
                     aimDir = new Vector2(0, 0);
                 }
             }
@@ -161,6 +162,7 @@ public class GravityGun : MonoBehaviour
                 beamEndPoint.transform.parent = transform.parent.transform;
                 beamEndPoint.transform.position = transform.parent.transform.position;
                 hitObject.GetComponent<ControllableObject>().ControlGravity(new Vector3(0, 0, 0), gravityAcceleration, gameObject);
+                hitObject.GetComponent<ControllableObject>().isControlledByGun = false;
                 controlling = false;
                 hitObject = null;
                 return;

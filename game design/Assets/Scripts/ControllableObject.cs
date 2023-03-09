@@ -5,61 +5,91 @@ using UnityEngine;
 public class ControllableObject : MonoBehaviour
 {
 
-    [SerializeField] private Vector2 velocity = new Vector2(0, 0);
+    [SerializeField] private float baseGravityForce = -2f;
+
+    [SerializeField] private Vector2 force = new Vector2(0, 0);
     [SerializeField] private Vector2 deccelerationRate = new Vector2(5, 5);
 
-    [SerializeField] private float maxSpeed = 10f;
+    [SerializeField] private Vector2 maxSpeed = new Vector2(10f, -10f);
 
     public Vector2 controlledGravityAcceleration = new Vector2(0, 0);
     public Vector3 maxControlledGravity = new Vector3(0, 0, 0);
 
     public bool isControlledByGun = false;
     // Create dictionary or controllers: {gameObject, Vector4(Gravity.x, y, z, acceleration)}
-    public Dictionary<GameObject, Vector4> controllers = new Dictionary<GameObject, Vector4>();
+    private Dictionary<GameObject, Vector4> controllers = new Dictionary<GameObject, Vector4>();
+    private Rigidbody2D rb2d;
 
+    [SerializeField] private bool isPlayer;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb2d = GetComponent<Rigidbody2D>();
+        isPlayer = gameObject.name == "Player";
     }
 
     // Update is called once per frame
     void Update()
-    {/*
-        velocity = GetComponent<Rigidbody2D>().velocity;
-
-        // Disable physics gravity if controlled by player 
-        isControlledByGun = GameObject.Find("Gravity Gun").GetComponent<GravityGun>().controlling; // Change this condition, this activates if the player controls anything
-        if (isControlledByGun)
+    {
+        float moveInput = maxControlledGravity.x;
+        if (moveInput != 0)
         {
-            GetComponent<Rigidbody2D>().gravityScale = 0f; 
+            force.x = controlledGravityAcceleration.x;
+            if (Mathf.Abs(force.x) > maxSpeed.x)
+            {
+                force.x = Mathf.Sign(rb2d.velocity.x) * maxSpeed.x;
+            }
+            
         }
-        else 
+        else if(!isPlayer)
         {
-            GetComponent<Rigidbody2D>().gravityScale = 1f; 
-        }
-
-        if (maxControlledGravity.x != 0)
-        {
-            velocity.x = Mathf.MoveTowards(velocity.x, maxControlledGravity.x, Mathf.Sign(maxControlledGravity.x) * controlledGravityAcceleration.x);
-        }
-        else if (velocity.x != 0 && isControlledByGun)
-        {
-            velocity.x = Mathf.MoveTowards(velocity.x, 0, deccelerationRate.x);
-        }
-        if (maxControlledGravity.y != 0)
-        {
-            velocity.y = Mathf.MoveTowards(velocity.y, maxControlledGravity.y, Mathf.Sign(maxControlledGravity.y) * controlledGravityAcceleration.y);
-        }
-        else if (velocity.y != 0 && isControlledByGun)
-        {
-           velocity.y = Mathf.MoveTowards(velocity.y, 0, deccelerationRate.y);
+            force.x = -Mathf.Sign(rb2d.velocity.x) * deccelerationRate.x;
+            if (Mathf.Abs(rb2d.velocity.x) < 1)
+            {
+                force.x = 0;
+                rb2d.velocity = new Vector2(0, rb2d.velocity.y);
+            }
         }
         
-        */
-        GetComponent<Rigidbody2D>().drag = (GetComponent<Rigidbody2D>().velocity.magnitude / maxSpeed);
-        GetComponent<Rigidbody2D>().AddForce(controlledGravityAcceleration * GetComponent<Rigidbody2D>().mass);
+        force.y = maxControlledGravity.y;
+        
+        if (isPlayer && force.y != 0)
+        {
+            if (gameObject.GetComponent<PlayerController>().isGrounded)
+            {
+                force.y += gameObject.GetComponent<PlayerController>().gravityStrength;
+            }
+            else
+            {
+                //force.y += 2;
+            }
+        }
+
+        if (isControlledByGun)
+        {
+            if (maxControlledGravity.y == 0 && rb2d.velocity.y != 0)
+            {
+                force.y = -Mathf.Sign(rb2d.velocity.y) * deccelerationRate.y;
+                if (Mathf.Abs(rb2d.velocity.x) < 1)
+                {
+                    force.y = 0;
+                    rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
+                }
+            }
+        }
+        else if (!isPlayer)
+        {
+            force.y += baseGravityForce;
+        }
+        
+        if (rb2d.velocity.y < maxSpeed.y && maxControlledGravity.y == 0 && !isControlledByGun && !isPlayer)
+        {
+            force.y = 0;
+            rb2d.velocity = new Vector2(rb2d.velocity.x, maxSpeed.y);
+        }
+
+        rb2d.AddForce(force * rb2d.mass);
     }
 
     public void ControlGravity(Vector3 maxForce, float baseAcceleration, GameObject changer)
@@ -68,13 +98,11 @@ public class ControllableObject : MonoBehaviour
         controllers[changer] = threeToFour(maxForce);
         controllers[changer] = new Vector4(controllers[changer].x, controllers[changer].y, controllers[changer].z, baseAcceleration);
 
-        
-
-        
 
         controlledGravityAcceleration = new Vector2(0, 0);
         maxControlledGravity = new Vector3(0, 0, 0);
 
+        // Sum all of the gravity controllers and their acceleration vectors
         foreach (KeyValuePair<GameObject, Vector4> controller in controllers)
         {
             maxControlledGravity += FourToThree(controller.Value);
