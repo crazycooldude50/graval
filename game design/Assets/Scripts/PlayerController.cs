@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 rbVel = new Vector2(0, 0);
 
-    private Vector2 groundVelocity = new Vector2(0, 0);
+    [SerializeField] private Vector2 groundVelocity = new Vector2(0, 0);
 
     private Rigidbody2D rb2d;
     private BoxCollider2D bc2d;
@@ -87,9 +87,13 @@ public class PlayerController : MonoBehaviour
 
             if (raycastHitTest.collider != null)
             {
-                if (type == 0 && raycastHitTest.collider.tag != "Win" && raycastHitTest.collider.gameObject.name != "LevelTileMap")
+                if (type == 0 && raycastHitTest.collider.tag != "Win" && raycastHitTest.collider.gameObject.name != "LevelTileMap" && raycastHitTest.collider.gameObject.name != "Door")
                 {
                     groundVelocity = raycastHitTest.collider.gameObject.GetComponent<Rigidbody2D>().velocity;
+                }
+                else
+                {
+                    groundVelocity = new Vector2(0, 0);
                 }
                 return true;
             }
@@ -133,9 +137,9 @@ public class PlayerController : MonoBehaviour
 
         rb2d.gravityScale = 0f;
 
-        rb2d.AddForce(force);
+        rb2d.AddForce(force * rb2d.mass);
         // Move with floor
-        rb2d.velocity = new Vector2(rb2d.velocity.x + groundVelocity.x, rb2d.velocity.y + groundVelocity.y);
+        //rb2d.velocity += groundVelocity;
 
         hardHat.transform.position = transform.position + new Vector3(0, 1.4f, 0);
     }
@@ -148,9 +152,9 @@ public class PlayerController : MonoBehaviour
         if (moveInput != 0)
         {
             force.x = speed * moveInput;
-            if (Mathf.Abs(force.x) > maxSpeedX)
+            if (Mathf.Abs(rb2d.velocity.x) > maxSpeedX)
             {
-                force.x = Mathf.Sign(force.x) * maxSpeedX;
+                rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * maxSpeedX, rb2d.velocity.y);
             }
         }
         else

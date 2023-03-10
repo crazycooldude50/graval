@@ -23,7 +23,7 @@ public class Door : MonoBehaviour
     }
     void openDoor()
     { 
-        for (int i = inputs - 1; i >= 0; i--) 
+        for (int i = 0; i < inputs; i++) 
         {
             if (triggers[i] == false) 
             {
@@ -37,6 +37,7 @@ public class Door : MonoBehaviour
     for (int i = 0; i < inputs; i++) {
         if (triggers[i] != state) { 
             triggers[i] = state;
+            Debug.Log(triggers[i] + ", " + i + ", " + triggers);
             openDoor();
             return;
         }
