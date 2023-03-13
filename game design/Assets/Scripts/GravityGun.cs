@@ -79,7 +79,6 @@ public class GravityGun : MonoBehaviour
         if (!edited)
         {
             aimDir = lastAimDir;
-            //return;
         }
 
         // Flip player if aiming in opposite direction
@@ -128,7 +127,7 @@ public class GravityGun : MonoBehaviour
             if (aimBeam.collider.gameObject.tag == "Gravitizable")
             {
                 // Control hit object if Space is pressed
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.V))
                 {
                     float extraDistance = 0.1f;
 
@@ -157,7 +156,7 @@ public class GravityGun : MonoBehaviour
 
             // If space is released, or the line cast hits a different object, or the object goes out of range,
             // remove the object from the controlled list and reparent to self.
-            if (Input.GetKeyUp(KeyCode.Space) || aimBeam.collider.gameObject != hitObject || Vector3.Distance(barrel.transform.position, beamEndPoint.transform.position) > maxBeamLength)
+            if (Input.GetKeyUp(KeyCode.V) || aimBeam.collider.gameObject != hitObject || Vector3.Distance(barrel.transform.position, beamEndPoint.transform.position) > maxBeamLength)
             {
                 beamEndPoint.transform.parent = transform.parent.transform;
                 beamEndPoint.transform.position = transform.parent.transform.position;
