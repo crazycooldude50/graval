@@ -37,7 +37,6 @@ public class Door : MonoBehaviour
     for (int i = 0; i < inputs; i++) {
         if (triggers[i] != state) { 
             triggers[i] = state;
-            Debug.Log(triggers[i] + ", " + i + ", " + triggers);
             openDoor();
             return;
         }
