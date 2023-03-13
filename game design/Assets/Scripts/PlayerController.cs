@@ -12,20 +12,23 @@ public class PlayerController : MonoBehaviour
 
 
     // Start is called before the first frame update
-    [SerializeField] private Vector2 velocity = new Vector2(0, 0);
-
-
+    [SerializeField] public Vector2 force = new Vector2(0, 0);
 
     private float moveInput;
     [SerializeField] private float speed = 150;
-    [SerializeField] private float walkAcceleration = 1;
     [SerializeField] private float groundDecceleration = 600;
-    [SerializeField] public bool isGrounded = false;
+    public bool isGrounded = false;
+    public bool isWalled = false;
     [SerializeField] private float terminalVelocity = -400f;
-    [SerializeField] private float gravityStrength = -0.02f;
+
+    [SerializeField] public float maxSpeedX = 5f;
+
+    // Basically determines the gravity of the player
+    public float gravityStrength = -2f;
+
+    public Vector2 rbVel = new Vector2(0, 0);
 
     [SerializeField] private Vector2 groundVelocity = new Vector2(0, 0);
-
 
     private Rigidbody2D rb2d;
     private BoxCollider2D bc2d;
@@ -43,14 +46,18 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rbVel = rb2d.velocity;
         isGrounded = CheckGrounded(0);
+        isWalled = CheckWalled();
         if (CheckGrounded(1))
         {
-            velocity.y = 0;
+            force.y = 0;
+            rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
         }
-        if (CheckWalled())
+        if (isWalled)
         {
-            velocity.x = 0;
+            force.x = 0;
+            rb2d.velocity = new Vector2(0, rb2d.velocity.y); ;
         }
         CheckInput();
         Move();
@@ -80,9 +87,13 @@ public class PlayerController : MonoBehaviour
 
             if (raycastHitTest.collider != null)
             {
-                if (type == 0)
+                if (type == 0 && raycastHitTest.collider.tag != "Win" && raycastHitTest.collider.gameObject.name != "LevelTileMap" && raycastHitTest.collider.gameObject.name != "Door")
                 {
                     groundVelocity = raycastHitTest.collider.gameObject.GetComponent<Rigidbody2D>().velocity;
+                }
+                else
+                {
+                    groundVelocity = new Vector2(0, 0);
                 }
                 return true;
             }
@@ -92,7 +103,7 @@ public class PlayerController : MonoBehaviour
 
     private bool CheckWalled()
     {
-        float extraWidth = 0.1f;
+        float extraWidth = 0.01f;
 
         Vector2 currentPos;
         RaycastHit2D raycastHitTest = Physics2D.Raycast(new Vector2(0, 0), Vector2.down, 0);
@@ -123,25 +134,13 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        // Falling
-        if (!isGrounded)
-        {
-            if (velocity.y > terminalVelocity)
-            {
-                velocity.y += /*Physics2D.gravity.y*/ gravityStrength;
-            }
-            else
-            {
-                velocity.y = terminalVelocity;
-            }
-        }
-        else if (velocity.y < 0)
-        {
-            velocity.y = 0;
-        }
 
-        // Moving
-        rb2d.velocity = velocity + groundVelocity;
+        rb2d.gravityScale = 0f;
+
+        rb2d.AddForce(force * rb2d.mass);
+        // Move with floor
+        //rb2d.velocity += groundVelocity;
+
         hardHat.transform.position = transform.position + new Vector3(0, 1.4f, 0);
     }
 
@@ -152,25 +151,47 @@ public class PlayerController : MonoBehaviour
         moveInput = Input.GetAxisRaw("Horizontal");
         if (moveInput != 0)
         {
-            velocity.x = Mathf.MoveTowards(velocity.x, speed * moveInput, walkAcceleration);
+            force.x = speed * moveInput;
+            if (Mathf.Abs(rb2d.velocity.x) > maxSpeedX)
+            {
+                rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * maxSpeedX, rb2d.velocity.y);
+            }
         }
         else
         {
-            velocity.x = Mathf.MoveTowards(velocity.x, 0, groundDecceleration * Time.deltaTime);
+            force.x = -Mathf.Sign(rb2d.velocity.x) * groundDecceleration;
+            if (Mathf.Abs(rb2d.velocity.x) < 1)
+            {
+                force.x = 0;
+                rb2d.velocity = new Vector2(0, rb2d.velocity.y);
+            }
         }
+
         // Turn Around, only if no arrow keys are pressed, and no object is controlled
         if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.Space))
         {
-            if (moveInput == 1 && moveInput != -1)
+            if (moveInput != 0)
             {
-                flipped = 1;
-                Flip(1);
+                flipped = (int) moveInput;
+                Flip((int) moveInput);
             }
-            else if (moveInput == -1 && moveInput != 1)
+        }
+
+        if (!isGrounded)
+        {
+            if (rb2d.velocity.y < terminalVelocity)
             {
-                flipped = -1;
-                Flip(-1);
+                rb2d.velocity = new Vector2(rb2d.velocity.x, terminalVelocity);
+                force.y = 0;
             }
+            else
+            {
+                force.y = gravityStrength;
+            }
+        }
+        else
+        {
+            force.y = -0.5f;
         }
     }
 

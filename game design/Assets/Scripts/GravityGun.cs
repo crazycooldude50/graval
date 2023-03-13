@@ -5,12 +5,12 @@ using UnityEngine;
 public class GravityGun : MonoBehaviour
 {
     [SerializeField] private Vector2 aimDir = new Vector2(0, 0);
-    private bool controlling = false;
+    public bool controlling = false;
     private GameObject barrel;
     private GameObject beamEndPoint;
-    private GravityController gravityController;
     private GameObject hitObject;
-    [SerializeField] private float gravityStrength = 0.1f;
+    [SerializeField] private float gravityStrength = 5f;
+    [SerializeField] private float gravityAcceleration = 1f;
     [SerializeField] private float maxBeamLength = 20f;
 
     // Start is called before the first frame update
@@ -18,7 +18,6 @@ public class GravityGun : MonoBehaviour
     {
         barrel = transform.GetChild(0).gameObject;
         beamEndPoint = GameObject.Find("BeamEndPoint");
-        gravityController = GetComponent<GravityController>();
     }
 
     // Update is called once per frame
@@ -29,9 +28,20 @@ public class GravityGun : MonoBehaviour
         Detect();
     }
 
-    private void Aim(Vector2 lastAimDir)
+    void Aim(Vector2 lastAimDir)
     {
         // Uses arrow keys to detect aim direction for gravity beam
+
+        /*
+        aimDir = new Vector2(Input.GetAxisRaw("HorizontalArrow"), Input.GetAxisRaw("VerticalArrow"));
+        bool edited = false;
+
+        if (aimDir != lastAimDir)
+        {
+            edited = true;
+        }
+        */
+        
         aimDir = new Vector2(0, 0);
         bool edited = false;
 
@@ -124,13 +134,11 @@ public class GravityGun : MonoBehaviour
 
                     controlling = true;
                     hitObject = aimBeam.collider.gameObject;
-                    gravityController.controlled.Add(aimBeam.collider.gameObject);
-                    // Disable normal gravity on the controlled object
-                    aimBeam.collider.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0f; 
                     // Move beamEndPoint to hit object, set it that as parent
                     beamEndPoint.transform.parent = aimBeam.collider.gameObject.transform;
                     beamEndPoint.transform.position = aimBeam.point;
                     beamEndPoint.transform.position += extraDistance * new Vector3(aimDir.x, aimDir.y, 0);
+                    hitObject.GetComponent<ControllableObject>().isControlledByGun = true;
                     aimDir = new Vector2(0, 0);
                 }
             }
@@ -138,6 +146,9 @@ public class GravityGun : MonoBehaviour
 
         else // if controlling
         {
+            // Apply Gravity Force to object
+            hitObject.GetComponent<ControllableObject>().ControlGravity(aimDir * gravityStrength, gravityAcceleration, gameObject);
+
             // Use line cast to beam End point
             RaycastHit2D aimBeam = Physics2D.Linecast(barrel.transform.position, beamEndPoint.transform.position);
 
@@ -148,10 +159,10 @@ public class GravityGun : MonoBehaviour
             // remove the object from the controlled list and reparent to self.
             if (Input.GetKeyUp(KeyCode.Space) || aimBeam.collider.gameObject != hitObject || Vector3.Distance(barrel.transform.position, beamEndPoint.transform.position) > maxBeamLength)
             {
-                gravityController.controlled.Remove(hitObject);
                 beamEndPoint.transform.parent = transform.parent.transform;
                 beamEndPoint.transform.position = transform.parent.transform.position;
-                hitObject.GetComponent<Rigidbody2D>().gravityScale = 1f;
+                hitObject.GetComponent<ControllableObject>().ControlGravity(new Vector3(0, 0, 0), gravityAcceleration, gameObject);
+                hitObject.GetComponent<ControllableObject>().isControlledByGun = false;
                 controlling = false;
                 hitObject = null;
                 return;
@@ -159,7 +170,6 @@ public class GravityGun : MonoBehaviour
 
             // This code only occurs the gravity connection is still valid
             DrawGravityRay(beamEndPoint.transform.position);        
-            gravityController.gravity = new Vector3(aimDir.x * gravityStrength, aimDir.y * gravityStrength, 0);
         }
     }
 
