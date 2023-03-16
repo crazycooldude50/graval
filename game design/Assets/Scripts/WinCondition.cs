@@ -23,8 +23,9 @@ public class WinCondition : MonoBehaviour
         {
             string currentLevel = SceneManager.GetActiveScene().name;
 
+            int levelNum = int.Parse(currentLevel.Substring(5));
             // Loads the next level
-            /* SceneManager.LoadScene("Level " + currentLevel.Substring(5)); */
+            SceneManager.LoadScene("Level " + (levelNum + 1));
         }
     }
 }
