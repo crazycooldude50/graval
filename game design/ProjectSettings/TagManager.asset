@@ -10,15 +10,15 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Glass
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Anti-Player
+  - Anti-Beam Cast
+  - Anti-Object
+  - Player
+  - Object
+  - Floor
   - 
   - 
   - 
