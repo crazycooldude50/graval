@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask playerLayerMask;
 
+    public int roomNumber;
 
     void Start()
     {
@@ -213,5 +214,17 @@ public class PlayerController : MonoBehaviour
     public int GetFlipped()
     {
         return flipped;
+    }
+
+    public void OnTriggerEnter2D(Collider2D collider)
+    {
+        string name = collider.gameObject.name;
+        Debug.Log(name.Substring(0,12));
+        if (string.Equals(name.Substring(0,12), "Room trigger"))
+        {
+            Debug.Log(name.Substring(13));
+            roomNumber = int.Parse(name.Substring(13));
+
+        }
     }
 }

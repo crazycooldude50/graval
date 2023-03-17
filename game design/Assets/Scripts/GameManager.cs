@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private int roomNumber;
     // Start is called before the first frame update
     void Start()
     {
@@ -12,6 +13,13 @@ public class GameManager : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        if(Input.GetKeyDown("R"))
+        {
+
+        }
+    }
+    void ResetLevel()
     {
         
     }
