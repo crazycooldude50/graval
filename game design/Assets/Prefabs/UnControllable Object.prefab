@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5691175280156797689}
   - component: {fileID: 2081680383743840347}
   - component: {fileID: 4846350949197748816}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: UnControllable Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5691175280156797689
 SpriteRenderer:
@@ -101,7 +101,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
