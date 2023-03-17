@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9010481222200647564}
   - component: {fileID: 3392099382627231023}
   - component: {fileID: 8120280055209078564}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Controllable Object
   m_TagString: Gravitizable
   m_Icon: {fileID: 0}
@@ -33,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9010481222200647565
 SpriteRenderer:

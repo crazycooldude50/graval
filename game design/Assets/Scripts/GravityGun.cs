@@ -13,6 +13,8 @@ public class GravityGun : MonoBehaviour
     [SerializeField] private float gravityAcceleration = 1f;
     [SerializeField] private float maxBeamLength = 20f;
 
+    [SerializeField] private LayerMask gravityGunLayerMask;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -109,7 +111,7 @@ public class GravityGun : MonoBehaviour
         if (!controlling)
         {
             // Raycast in one of 8 directions
-            RaycastHit2D aimBeam = Physics2D.Raycast(barrel.transform.position, aimDir, maxBeamLength);
+            RaycastHit2D aimBeam = Physics2D.Raycast(barrel.transform.position, aimDir, maxBeamLength, gravityGunLayerMask);
 
             // Rotate gravity gun to one of 8 directions
             transform.parent.transform.right = new Vector3(aimDir.x, aimDir.y, 0);
@@ -149,7 +151,7 @@ public class GravityGun : MonoBehaviour
             hitObject.GetComponent<ControllableObject>().ControlGravity(aimDir * gravityStrength, gravityAcceleration, gameObject);
 
             // Use line cast to beam End point
-            RaycastHit2D aimBeam = Physics2D.Linecast(barrel.transform.position, beamEndPoint.transform.position);
+            RaycastHit2D aimBeam = Physics2D.Linecast(barrel.transform.position, beamEndPoint.transform.position, gravityGunLayerMask);
 
             // Rotate gravity gun to face beamEndPoint
             transform.parent.transform.right = beamEndPoint.transform.position - transform.position;

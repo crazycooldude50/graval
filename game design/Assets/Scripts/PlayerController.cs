@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
 
     private GameObject hardHat;
 
+    [SerializeField] private LayerMask playerLayerMask;
+
 
     void Start()
     {
@@ -68,7 +70,7 @@ public class PlayerController : MonoBehaviour
         float extraHeight = 0.1f;
 
         Vector2 currentPos;
-        RaycastHit2D raycastHitTest = Physics2D.Raycast(new Vector2(0, 0), Vector2.down, 0);
+        RaycastHit2D raycastHitTest = Physics2D.Raycast(new Vector2(0, 0), Vector2.down, 0, playerLayerMask);
         for (float i = bc2d.bounds.center.x - bc2d.bounds.extents.x; i <= bc2d.bounds.center.x + bc2d.bounds.extents.x; i += bc2d.bounds.extents.x * 2)
         {
             currentPos = new Vector2(i, bc2d.bounds.center.y);
@@ -76,13 +78,13 @@ public class PlayerController : MonoBehaviour
             if (type == 0)
             {
                 currentPos.y -= extraHeight;
-                raycastHitTest = Physics2D.Raycast(currentPos, Vector2.down, bc2d.bounds.extents.y);
+                raycastHitTest = Physics2D.Raycast(currentPos, Vector2.down, bc2d.bounds.extents.y, playerLayerMask);
             }
 
             else
             {
                 currentPos.y += extraHeight;
-                raycastHitTest = Physics2D.Raycast(currentPos, Vector2.up, bc2d.bounds.extents.y);
+                raycastHitTest = Physics2D.Raycast(currentPos, Vector2.up, bc2d.bounds.extents.y, playerLayerMask);
             }
 
             if (raycastHitTest.collider != null)
@@ -106,13 +108,13 @@ public class PlayerController : MonoBehaviour
         float extraWidth = 0.01f;
 
         Vector2 currentPos;
-        RaycastHit2D raycastHitTest = Physics2D.Raycast(new Vector2(0, 0), Vector2.down, 0);
+        RaycastHit2D raycastHitTest = Physics2D.Raycast(new Vector2(0, 0), Vector2.down, 0, playerLayerMask);
         for (float i = bc2d.bounds.center.y - bc2d.bounds.extents.y; i <= bc2d.bounds.center.y + bc2d.bounds.extents.y; i += bc2d.bounds.extents.y)
         {
             currentPos = new Vector2(bc2d.bounds.center.x, i);
             currentPos.x -= extraWidth;
 
-            raycastHitTest = Physics2D.Raycast(currentPos, Vector2.left, bc2d.bounds.extents.x);
+            raycastHitTest = Physics2D.Raycast(currentPos, Vector2.left, bc2d.bounds.extents.x, playerLayerMask);
 
             if (raycastHitTest.collider != null)
             {
@@ -121,7 +123,7 @@ public class PlayerController : MonoBehaviour
 
             currentPos.x += 2 * extraWidth;
 
-            raycastHitTest = Physics2D.Raycast(currentPos, Vector2.right, bc2d.bounds.extents.x);
+            raycastHitTest = Physics2D.Raycast(currentPos, Vector2.right, bc2d.bounds.extents.x, playerLayerMask);
 
             if (raycastHitTest.collider != null)
             {
