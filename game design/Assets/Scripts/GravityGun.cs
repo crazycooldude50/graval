@@ -7,11 +7,14 @@ public class GravityGun : MonoBehaviour
     [SerializeField] private Vector2 aimDir = new Vector2(0, 0);
     public bool controlling = false;
     private GameObject barrel;
+    private GameObject hand;
     private GameObject beamEndPoint;
     private GameObject hitObject;
     [SerializeField] private float gravityStrength = 5f;
     [SerializeField] private float gravityAcceleration = 1f;
     [SerializeField] private float maxBeamLength = 20f;
+
+    LineRenderer line;
 
     [SerializeField] private LayerMask gravityGunLayerMask;
 
@@ -19,7 +22,13 @@ public class GravityGun : MonoBehaviour
     void Start()
     {
         barrel = transform.GetChild(0).gameObject;
+        hand = transform.parent.gameObject;
         beamEndPoint = GameObject.Find("BeamEndPoint");
+        
+
+        line = barrel.GetComponent<LineRenderer>();
+        line.positionCount = 2;
+        
     }
 
     // Update is called once per frame
@@ -111,7 +120,7 @@ public class GravityGun : MonoBehaviour
         if (!controlling)
         {
             // Raycast in one of 8 directions
-            RaycastHit2D aimBeam = Physics2D.Raycast(barrel.transform.position, aimDir, maxBeamLength, gravityGunLayerMask);
+            RaycastHit2D aimBeam = Physics2D.Raycast(hand.transform.position, aimDir, maxBeamLength, gravityGunLayerMask);
 
             // Rotate gravity gun to one of 8 directions
             transform.parent.transform.right = new Vector3(aimDir.x, aimDir.y, 0);
@@ -119,12 +128,12 @@ public class GravityGun : MonoBehaviour
             // If it doens't hit anything, draw ray to aimDir, return out of method
             if (aimBeam.collider == null)
             {
-                DrawGravityRay(barrel.transform.position + new Vector3(aimDir.x, aimDir.y, 0) * maxBeamLength);
+                DrawGravityRay(hand.transform.position + new Vector3(aimDir.x, aimDir.y, 0) * maxBeamLength);
                 return;
             }
 
             // Draw ray until first collider hit, add a little extra distance for non-flat surfaces
-            DrawGravityRay(aimBeam.point + aimDir * 0.5f);
+            DrawGravityRay(aimBeam.point + aimDir * 0.1f);
 
             if (aimBeam.collider.gameObject.tag == "Gravitizable")
             {
@@ -151,14 +160,14 @@ public class GravityGun : MonoBehaviour
             hitObject.GetComponent<ControllableObject>().ControlGravity(aimDir * gravityStrength, gravityAcceleration, gameObject);
 
             // Use line cast to beam End point
-            RaycastHit2D aimBeam = Physics2D.Linecast(barrel.transform.position, beamEndPoint.transform.position, gravityGunLayerMask);
+            RaycastHit2D aimBeam = Physics2D.Linecast(hand.transform.position, beamEndPoint.transform.position, gravityGunLayerMask);
 
             // Rotate gravity gun to face beamEndPoint
-            transform.parent.transform.right = beamEndPoint.transform.position - transform.position;
+            hand.transform.right = beamEndPoint.transform.position - hand.transform.position;
 
             // If space is released, or the line cast hits a different object, or the object goes out of range,
             // remove the object from the controlled list and reparent to self.
-            if (Input.GetKeyUp(KeyCode.V) || aimBeam.collider.gameObject != hitObject || Vector3.Distance(barrel.transform.position, beamEndPoint.transform.position) > maxBeamLength)
+            if (Input.GetKeyUp(KeyCode.V) || aimBeam.collider.gameObject != hitObject || Vector3.Distance(hand.transform.position, beamEndPoint.transform.position) > maxBeamLength)
             {
                 beamEndPoint.transform.parent = transform.parent.transform;
                 beamEndPoint.transform.position = transform.parent.transform.position;
@@ -177,10 +186,7 @@ public class GravityGun : MonoBehaviour
     private void DrawGravityRay(Vector2 endPos)
     {
         // If not contolling, draw ray in a direction. Otherwise draw ray to the beamEndPoint
-        Vector2 startPos = barrel.transform.position;
-
-        LineRenderer line = barrel.GetComponent<LineRenderer>();
-        line.positionCount = 2;
+        Vector2 startPos = hand.transform.position;
         line.SetPosition(0, startPos);
         line.SetPosition(1, endPos);
     }
