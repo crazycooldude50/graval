@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask playerLayerMask;
 
-    public int roomNumber;
+    public int roomNumber = 1;
 
     void Start()
     {
@@ -220,7 +220,7 @@ public class PlayerController : MonoBehaviour
     {
         string name = collider.gameObject.name;
         Debug.Log(name.Substring(0,12));
-        if (string.Equals(name.Substring(0,12), "Room trigger"))
+        if (string.Equals(name.Substring(0,12), "Room Trigger"))
         {
             Debug.Log(name.Substring(13));
             roomNumber = int.Parse(name.Substring(13));
