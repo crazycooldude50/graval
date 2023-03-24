@@ -38,7 +38,7 @@ public class ControllableObject : MonoBehaviour
             force.x = controlledGravityAcceleration.x;
             if (Mathf.Abs(force.x) > maxSpeed.x)
             {
-                force.x = Mathf.Sign(rb2d.velocity.x) * maxSpeed.x;
+                force.x = Mathf.Sign(force.x) * maxSpeed.x;
             }
             
         }
