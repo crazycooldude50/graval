@@ -14,11 +14,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
+
         playerScript = player.GetComponent<PlayerController>();
         rooms = GameObject.Find("Rooms");
 
         SaveObjectPositions();
-
 
     }
 
@@ -30,16 +30,30 @@ public class GameManager : MonoBehaviour
         int roomNumber = playerScript.roomNumber;
         if (Input.GetKeyDown(KeyCode.R))
         {
-            GameObject room = rooms.transform.GetChild(roomNumber).gameObject;
+            playerScript.force = new Vector2(0, 0);
+            player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            GameObject room = rooms.transform.GetChild(roomNumber - 1).gameObject;
             for (int i = 0; i < room.transform.childCount; i++)
             {
                 GameObject child = room.transform.GetChild(i).gameObject;
+
+
+
+
                 if (child.name.Contains("Controllable Object"))
                 {
                     child.transform.position = roomStates[room][child];
                 }
+                if(roomNumber == 1)
+                {
+                    player.transform.position = GameObject.Find("Level Start").transform.position;
+                }
+                else
+                {
+                    player.transform.position = GameObject.Find("Room Trigger " + roomNumber).transform.position;
+                }
+                
             }
-
 
         }
     }
