@@ -2071,10 +2071,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1189192325}
     m_Modifications:
     - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
-      propertyPath: maxSpeed.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: deccelerationRate.x
       value: 0
       objectReference: {fileID: 0}
@@ -2088,11 +2084,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647566, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.42
+      value: -11.86002
       objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647566, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.5
+      value: -4.0086126
       objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647566, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2369,7 +2365,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce6ce776a6ed9c74f88f4e4e8b2f0d80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadSceneName: Level 0
 --- !u!1001 &587284440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2454,10 +2449,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1189192325}
     m_Modifications:
     - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
-      propertyPath: maxSpeed.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: deccelerationRate.x
       value: 0
       objectReference: {fileID: 0}
@@ -2534,10 +2525,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1189192325}
     m_Modifications:
     - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
-      propertyPath: maxSpeed.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: deccelerationRate.x
       value: 0
       objectReference: {fileID: 0}
@@ -2613,10 +2600,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1189192325}
     m_Modifications:
-    - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
-      propertyPath: maxSpeed.x
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: deccelerationRate.x
       value: 0
@@ -2835,11 +2818,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5758888133460065797, guid: ea71d79aaa2bb4743917621805d69602, type: 3}
       propertyPath: gravity.x
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5758888133460065797, guid: ea71d79aaa2bb4743917621805d69602, type: 3}
       propertyPath: gravity.y
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5758888133460065802, guid: ea71d79aaa2bb4743917621805d69602, type: 3}
       propertyPath: m_RootOrder
@@ -2908,10 +2891,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1189192325}
     m_Modifications:
-    - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
-      propertyPath: maxSpeed.x
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: deccelerationRate.x
       value: 0
@@ -3027,10 +3006,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1189192325}
     m_Modifications:
     - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
-      propertyPath: maxSpeed.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: deccelerationRate.x
       value: 0
       objectReference: {fileID: 0}
@@ -3044,11 +3019,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647566, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.59
+      value: 4.459981
       objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647566, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.67
+      value: -3.4186127
       objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647566, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3102,10 +3077,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1189192325}
     m_Modifications:
     - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
-      propertyPath: maxSpeed.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: deccelerationRate.x
       value: 0
       objectReference: {fileID: 0}
@@ -3119,11 +3090,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647566, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.1
+      value: -10.720019
       objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647566, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.27
+      value: 0.17138726
       objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647566, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3186,10 +3157,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1189192325}
     m_Modifications:
-    - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
-      propertyPath: maxSpeed.x
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: deccelerationRate.x
       value: 0
@@ -3330,11 +3297,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5758888133460065797, guid: ea71d79aaa2bb4743917621805d69602, type: 3}
       propertyPath: gravity.x
-      value: -10
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 5758888133460065797, guid: ea71d79aaa2bb4743917621805d69602, type: 3}
       propertyPath: gravity.y
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5758888133460065802, guid: ea71d79aaa2bb4743917621805d69602, type: 3}
       propertyPath: m_RootOrder
@@ -3404,10 +3371,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1189192325}
     m_Modifications:
     - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
-      propertyPath: maxSpeed.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: deccelerationRate.x
       value: 0
       objectReference: {fileID: 0}
@@ -3421,11 +3384,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647566, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.09
+      value: -11.99002
       objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647566, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.02
+      value: -1.8486128
       objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647566, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3478,10 +3441,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1189192325}
     m_Modifications:
-    - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
-      propertyPath: maxSpeed.x
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: deccelerationRate.x
       value: 0
@@ -3553,10 +3512,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1189192325}
     m_Modifications:
-    - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
-      propertyPath: maxSpeed.x
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: deccelerationRate.x
       value: 0
@@ -3633,10 +3588,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1189192325}
     m_Modifications:
-    - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
-      propertyPath: maxSpeed.x
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 9010481222200647564, guid: 8ef8cf258a7786048ab006da08c8509d, type: 3}
       propertyPath: deccelerationRate.x
       value: 0
