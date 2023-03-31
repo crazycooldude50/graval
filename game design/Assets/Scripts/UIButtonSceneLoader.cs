@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ButtonTemp : MonoBehaviour
+public class UIButtonSceneLoader : MonoBehaviour
 {
+    public string loadSceneName;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +20,6 @@ public class ButtonTemp : MonoBehaviour
     }
 
     public void hi() {
-        SceneManager.LoadScene("Level 0", LoadSceneMode.Additive);
+        SceneManager.LoadScene(loadSceneName);
     }
 }
