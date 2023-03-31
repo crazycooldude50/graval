@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private int roomNumber;
     public GameObject player;
     public GameObject rooms;
     private PlayerController playerScript;
+    private Dictionary<GameObject, Dictionary<GameObject, Vector3>> roomStates = new Dictionary<GameObject, Dictionary<GameObject, Vector3>>();
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,34 +17,30 @@ public class GameManager : MonoBehaviour
         playerScript = player.GetComponent<PlayerController>();
         rooms = GameObject.Find("Rooms");
 
-        List<Dictionary<GameObject, Vector3>> roomStates = new List<Dictionary<GameObject, Vector3>>();
-        for(int j = 0; j < rooms.transform.childCount; j++)
-        {
-            //roomStates.Add(new Dictionary<GameObject, Vector3>);
-            for (int i = 0; i < rooms.transform.GetChild(j).transform.childCount; i++)
-            {
-                
-                GameObject child = rooms.transform.GetChild(j).GetChild(i).gameObject;
-                Debug.Log(roomStates);
-                Debug.Log(child.name.Substring(0, 21));
-                if (child.name.Substring(0, 19).Equals("Controllable Object") || child.name.Substring(0, 21).Equals("UnControllable Object"))
-                {
-                   // roomStates.Set(i[child] = child.transform.position);
+        SaveObjectPositions();
 
-                }
-            }
-        }
 
     }
+
+
 
     // Update is called once per frame
     void Update()
     {
-        roomNumber = playerScript.roomNumber;
-        if(Input.GetKeyDown("R"))
+        int roomNumber = playerScript.roomNumber;
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            //roomTrigger = GameObject.Find("Room Trigger " + roomNumber);
-            //player.position.transform();
+            GameObject room = rooms.transform.GetChild(roomNumber).gameObject;
+            for (int i = 0; i < room.transform.childCount; i++)
+            {
+                GameObject child = room.transform.GetChild(i).gameObject;
+                if (child.name.Contains("Controllable Object"))
+                {
+                    child.transform.position = roomStates[room][child];
+                }
+            }
+
+
         }
     }
     void ResetLevel()
@@ -51,6 +49,31 @@ public class GameManager : MonoBehaviour
     }
     void LoadScene()
     {
+        SaveObjectPositions();
+    }
+    void SaveObjectPositions()
+    {
+        // Gets number of rooms
+        for (int j = 0; j < rooms.transform.childCount; j++)
+        {
+            GameObject room = rooms.transform.GetChild(j).gameObject;
+            for (int i = 0; i < room.transform.childCount; i++)
+            {
 
+                GameObject child = room.transform.GetChild(i).gameObject;
+                if (child.name.Contains("Controllable Object"))
+                {
+                    if (i == 0)
+                    {
+                        roomStates.Add(room, new Dictionary<GameObject, Vector3>() { { child, child.transform.position } });
+                    }
+                    else
+                    {
+
+                        roomStates[room][child] = child.transform.position;
+                    }
+                }
+            }
+        }
     }
 }
