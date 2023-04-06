@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public GameObject player;
-    public GameObject rooms;
+    private GameObject rooms;
     private PlayerController playerScript;
     private Dictionary<GameObject, Dictionary<GameObject, Vector3>> roomStates = new Dictionary<GameObject, Dictionary<GameObject, Vector3>>();
 
@@ -17,9 +18,8 @@ public class GameManager : MonoBehaviour
 
         playerScript = player.GetComponent<PlayerController>();
         rooms = GameObject.Find("Rooms");
-
+        //LoadScene("Level 0");
         SaveObjectPositions();
-
     }
 
 
@@ -61,12 +61,22 @@ public class GameManager : MonoBehaviour
     {
         
     }
-    void LoadScene()
+    void LoadScene(string sceneToLoad)
     {
+        for (int i = 0; i< SceneManager.sceneCount; i++)     
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if(scene.name != "GameManager")
+            {
+                SceneManager.UnloadSceneAsync(scene);
+            }
+        }
+        SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Additive);
         SaveObjectPositions();
     }
     void SaveObjectPositions()
     {
+
         // Gets number of rooms
         for (int j = 0; j < rooms.transform.childCount; j++)
         {
@@ -77,7 +87,7 @@ public class GameManager : MonoBehaviour
                 GameObject child = room.transform.GetChild(i).gameObject;
                 if (child.name.Contains("Controllable Object"))
                 {
-                    if (i == 0)
+                    if (!roomStates.ContainsKey(room))
                     {
                         roomStates.Add(room, new Dictionary<GameObject, Vector3>() { { child, child.transform.position } });
                     }

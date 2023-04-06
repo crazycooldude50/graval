@@ -23,6 +23,11 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] public float maxSpeedX = 5f;
 
+
+    // DEBUG MODE
+    public bool debugMode;
+
+
     // Basically determines the gravity of the player
     public float gravityStrength = -2f;
 
@@ -64,6 +69,16 @@ public class PlayerController : MonoBehaviour
         }
         CheckInput();
         Move();
+
+        if (debugMode)
+        {
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                Vector3 pos = Input.mousePosition;
+                transform.position = Camera.main.ScreenToWorldPoint(pos);
+                transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+            }
+        }
     }
 
     private bool CheckGrounded(int type)
