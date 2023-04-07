@@ -31,12 +31,14 @@ public class Button : MonoBehaviour
     
     public void OnTriggerEnter2D(Collider2D other)
     {
-        activatorAmount ++;
-        UpdateButtonState();
-        StopCoroutine("BeginTimer"); // stop coroutine to fill time.
-        // reset size of the timer
-        timerSprite.transform.localScale = new Vector3(0.95f, timerSprite.transform.localScale.y, timerSprite.transform.localScale.z);
-
+        if (other.gameObject.name != "LevelTileMap")
+        {
+            activatorAmount++;
+            UpdateButtonState();
+            StopCoroutine("BeginTimer"); // stop coroutine to fill time.
+                                         // reset size of the timer
+            timerSprite.transform.localScale = new Vector3(0.95f, timerSprite.transform.localScale.y, timerSprite.transform.localScale.z);
+        }
     }
     
     public void OnTriggerExit2D(Collider2D other)

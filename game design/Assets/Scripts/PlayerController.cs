@@ -233,13 +233,26 @@ public class PlayerController : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
+        // room triggers
         string name = collider.gameObject.name;
+        Debug.Log("trigger");
+        if(collider.gameObject.name.Equals("Room Trigger L")  && rbVel.x < 0)
+        {
+            roomNumber--;
+        }
+
+        else if(collider.gameObject.name.Equals("Room Trigger R") && rbVel.x > 0)
+        {
+            roomNumber++;
+        }
+
         Debug.Log(name.Substring(0,12));
-        if (string.Equals(name.Substring(0,12), "Room Trigger"))
+        /*if (string.Equals(name.Substring(0,12), "Room Trigger"))
         {
             Debug.Log(name.Substring(13));
+            if(string.Parse(name.Substring(13))
             roomNumber = int.Parse(name.Substring(13));
 
-        }
+        } */    
     }
 }

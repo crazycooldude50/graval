@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
+                    
                     player.transform.position = GameObject.Find("Room Trigger " + roomNumber).transform.position;
                 }
                 
