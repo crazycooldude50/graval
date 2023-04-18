@@ -12,6 +12,8 @@ public class Button : MonoBehaviour
     [SerializeField] private float timer = 0;
     [SerializeField] private GameObject timerSprite;
 
+    private LineRenderer line;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,12 +23,27 @@ public class Button : MonoBehaviour
         if (timer > 0) {
             timerSprite.transform.parent.gameObject.SetActive(true);
         }
+
+        // Line connection code
+        line = GetComponent<LineRenderer>();
+        line.positionCount = 2;
+        line.enabled = false;
+
+        line.SetPosition(0, transform.position);
+        line.SetPosition(1, door.transform.position);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            line.enabled = true;
+        }
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            line.enabled = false;
+        }
     }
     
     public void OnTriggerEnter2D(Collider2D other)
