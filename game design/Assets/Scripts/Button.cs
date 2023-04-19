@@ -12,40 +12,62 @@ public class Button : MonoBehaviour
     [SerializeField] private float timer = 0;
     [SerializeField] private GameObject timerSprite;
 
+    private LineRenderer line;
+
     // Start is called before the first frame update
     void Start()
     {
-        doorScript = door.GetComponent<Door>();
-        buttonGlow = GetComponent<SpriteRenderer>();
-        timerSprite = transform.parent.GetChild(1).GetChild(0).gameObject;
-        if (timer > 0) {
+        if (timer > 0)
+        {
             timerSprite.transform.parent.gameObject.SetActive(true);
         }
+
+        buttonGlow = GetComponent<SpriteRenderer>();
+        doorScript = door.GetComponent<Door>();
+        timerSprite = transform.parent.GetChild(1).GetChild(0).gameObject;
+        // Line connection code
+        line = GetComponent<LineRenderer>();
+        line.positionCount = 2;
+        line.enabled = false;
+
+        line.SetPosition(0, transform.position);
+        line.SetPosition(1, door.transform.position);
     }
 
     // Update is called once per frame
     void Update()
     {
 
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            line.enabled = true;
+        }
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            line.enabled = false;
+        }
     }
-    
+
     public void OnTriggerEnter2D(Collider2D other)
     {
-        activatorAmount ++;
-        UpdateButtonState();
-        StopCoroutine("BeginTimer"); // stop coroutine to fill time.
-        // reset size of the timer
-        timerSprite.transform.localScale = new Vector3(0.95f, timerSprite.transform.localScale.y, timerSprite.transform.localScale.z);
-
+        if (other.gameObject.name != "LevelTileMap")
+        {
+            activatorAmount++;
+            UpdateButtonState();
+            StopCoroutine("BeginTimer"); // stop coroutine to fill time.
+                                         // reset size of the timer
+            timerSprite.transform.localScale = new Vector3(0.95f, timerSprite.transform.localScale.y, timerSprite.transform.localScale.z);
+        }
     }
-    
+
     public void OnTriggerExit2D(Collider2D other)
     {
-        activatorAmount --;
-        if (activatorAmount == 0) {
+        activatorAmount--;
+        if (activatorAmount == 0)
+        {
             StopCoroutine("BeginTimer"); // stop coroutine to reset timer
             StartCoroutine("BeginTimer"); // start the timer
-            
+
         }
     }
 
@@ -56,15 +78,18 @@ public class Button : MonoBehaviour
             buttonGlow.color = Color.blue;
             doorScript.updateTrigger(false);
         }
-        else {
+        else
+        {
             buttonGlow.color = new Color(1, 0.5f, 0, 1);
             doorScript.updateTrigger(true);
         }
     }
 
-    private IEnumerator BeginTimer() {
+    private IEnumerator BeginTimer()
+    {
         float time = timer;
-        while (time > 0) {
+        while (time > 0)
+        {
             time -= 0.1f;
             timerSprite.transform.localScale = new Vector3(0.95f * (time / timer), timerSprite.transform.localScale.y, timerSprite.transform.localScale.z);
             yield return new WaitForSeconds(0.1f);

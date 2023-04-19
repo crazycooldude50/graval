@@ -5,71 +5,79 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     private GameObject player;
-    private GameObject triggers;
-    private PlayerController playerScript;
-    [SerializeField] private float xBoundLeft;
-    [SerializeField] private float xBoundRight;
-    [SerializeField] private float width;
+    [SerializeField] private float xLeft;
+    [SerializeField] private float xRight;
+    private GameObject seperators;
+    private float cameraWidth;
+    [SerializeField] private float velocity;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
-        triggers = GameObject.Find("Triggers");
-        playerScript = player.GetComponent<PlayerController>();
-        Camera cam = Camera.main;
-        float height = cam.orthographicSize;
-        width = height * cam.aspect;
+        seperators = GameObject.Find("Room Seperators");
+        cameraWidth = Camera.main.orthographicSize * Camera.main.aspect;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // If in first room, get custom camera starting pos
-        if (playerScript.roomNumber == 1)
-        {
-            xBoundLeft = GameObject.Find("Camera Start").transform.position.x;
-        }
-        else
-        {
-            xBoundLeft = triggers.transform.GetChild(playerScript.roomNumber - 1).position.x;
-        }
-
-        // If in last room, get custom ending pos
-        if (playerScript.roomNumber == triggers.transform.childCount)
-        {
-            xBoundRight = GameObject.Find("Camera End").transform.position.x;
-        }
-        else
-        {
-            xBoundRight = triggers.transform.GetChild(playerScript.roomNumber).position.x;
-        }
-
-        // Account for width of camera view in bounds
-        xBoundLeft += width;
-        xBoundRight -= width;
-
-        // Find center point if left bound is to the right of the right bound
-        if (xBoundLeft > xBoundRight)
-        {
-            xBoundLeft += xBoundRight;
-            xBoundLeft /= 2;
-            xBoundRight = xBoundLeft;
-        }
-
-        // Convert world coordinate to camera pos
-        xBoundLeft -= 29;
-        xBoundRight -= 27;
-
-        // If in bounds follow player
-        if (transform.position.x > xBoundLeft && transform.position.x < xBoundRight)
-        {
-            transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
-        }
-        else
-        {
-            transform.position = new Vector3(xBoundRight + 28, transform.position.y, transform.position.z);
-        }
         
+        transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
+        /*
+        UpdateBounds(player.GetComponent<PlayerController>().roomNumber);
+
+        // Default track player, change target if out of bounds
+        float targetPos = player.transform.position.x;
+
+        // If the camera is too far to the left, snap to left bound
+        if (transform.position.x < xLeft)
+        {
+            targetPos = xLeft;
+        }
+        // If the camera is too far to the right, snap to right bound
+        else if (transform.position.x > xRight)
+        {
+            targetPos = xRight;
+        }
+        // Ease camera movement
+        Vector3 lerpPosition = Vector3.Lerp(transform.position, new Vector3(targetPos, transform.position.y, transform.position.z), 0.01f);
+        transform.position = lerpPosition;
     }
+
+    public void UpdateBounds(int roomNum)
+    {
+
+        roomNum--;
+        // If in first room, set camera left bound to custom object
+        if (roomNum == 0) {
+            xLeft = GameObject.Find("Camera Left").transform.position.x;
+        }
+        else {
+            xLeft = seperators.transform.GetChild(roomNum - 1).Find("Camera Trigger").position.x;
+        }
+
+        // If in last room, set camera right bound to custom object
+        if (roomNum == seperators.transform.childCount) {
+            xRight = GameObject.Find("Camera Right").transform.position.x;
+        }
+        else {
+            xRight = seperators.transform.GetChild(roomNum).Find("Camera Trigger").position.x;
+        }
+
+        // Account for camera width is bound size
+        xLeft += cameraWidth;
+        xRight -= cameraWidth;
+
+        // If the left bound is in front of the right one after addition, set the bounds to the average value
+        if (xLeft > xRight)
+        {
+            xLeft = (xLeft + xRight) / 2;
+            xRight = xLeft;
+        }
+        */
+    }
+        
 }
