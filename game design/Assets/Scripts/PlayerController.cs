@@ -231,15 +231,34 @@ public class PlayerController : MonoBehaviour
         return flipped;
     }
 
-    public void OnTriggerEnter2D(Collider2D collider)
+ /*   public void OnTriggerEnter2D(Collider2D collider)
     {
         string name = collider.gameObject.name;
         Debug.Log(name.Substring(0,12));
         if (string.Equals(name.Substring(0,12), "Room Trigger"))
         {
+            
             Debug.Log(name.Substring(13));
             roomNumber = int.Parse(name.Substring(13));
 
         }
     }
+ */
+    public void OnTriggerExit2D(Collider2D collider) 
+        {
+        string name = collider.gameObject.name;
+        debugMode.Log(roomNumber);
+        if (string.Equals(name.Substring(0, 12), "Room Trigger"))
+        {
+
+            if (rb2d.velocity.x < 0)
+            {
+                roomNumber--;
+            }
+            else
+            {
+                roomNumber++;
+            }
+        }
+    } 
 }
