@@ -25,16 +25,13 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         
-        transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
-        /*
         UpdateBounds(player.GetComponent<PlayerController>().roomNumber);
 
         // Default track player, change target if out of bounds
         float targetPos = player.transform.position.x;
-
+        
         // If the camera is too far to the left, snap to left bound
-        if (transform.position.x < xLeft)
-        {
+        if (transform.position.x < xLeft) {
             targetPos = xLeft;
         }
         // If the camera is too far to the right, snap to right bound
@@ -49,21 +46,24 @@ public class CameraController : MonoBehaviour
 
     public void UpdateBounds(int roomNum)
     {
-
         roomNum--;
         // If in first room, set camera left bound to custom object
-        if (roomNum == 0) {
+        if (roomNum == 0)
+        {
             xLeft = GameObject.Find("Camera Left").transform.position.x;
         }
-        else {
+        else
+        {
             xLeft = seperators.transform.GetChild(roomNum - 1).Find("Camera Trigger").position.x;
         }
 
         // If in last room, set camera right bound to custom object
-        if (roomNum == seperators.transform.childCount) {
+        if (roomNum == seperators.transform.childCount)
+        {
             xRight = GameObject.Find("Camera Right").transform.position.x;
         }
-        else {
+        else
+        {
             xRight = seperators.transform.GetChild(roomNum).Find("Camera Trigger").position.x;
         }
 
@@ -77,7 +77,6 @@ public class CameraController : MonoBehaviour
             xLeft = (xLeft + xRight) / 2;
             xRight = xLeft;
         }
-        */
+
     }
-        
 }

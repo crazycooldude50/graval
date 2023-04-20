@@ -17,14 +17,13 @@ public class Button : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (timer > 0)
-        {
+        doorScript = door.GetComponent<Door>();
+        buttonGlow = GetComponent<SpriteRenderer>();
+        timerSprite = transform.parent.GetChild(1).GetChild(0).gameObject;
+        if (timer > 0) {
             timerSprite.transform.parent.gameObject.SetActive(true);
         }
 
-        buttonGlow = GetComponent<SpriteRenderer>();
-        doorScript = door.GetComponent<Door>();
-        timerSprite = transform.parent.GetChild(1).GetChild(0).gameObject;
         // Line connection code
         line = GetComponent<LineRenderer>();
         line.positionCount = 2;
@@ -37,7 +36,6 @@ public class Button : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.Q))
         {
             line.enabled = true;
@@ -47,7 +45,7 @@ public class Button : MonoBehaviour
             line.enabled = false;
         }
     }
-
+    
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.name != "LevelTileMap")
@@ -59,15 +57,14 @@ public class Button : MonoBehaviour
             timerSprite.transform.localScale = new Vector3(0.95f, timerSprite.transform.localScale.y, timerSprite.transform.localScale.z);
         }
     }
-
+    
     public void OnTriggerExit2D(Collider2D other)
     {
-        activatorAmount--;
-        if (activatorAmount == 0)
-        {
+        activatorAmount --;
+        if (activatorAmount == 0) {
             StopCoroutine("BeginTimer"); // stop coroutine to reset timer
             StartCoroutine("BeginTimer"); // start the timer
-
+            
         }
     }
 
@@ -78,18 +75,15 @@ public class Button : MonoBehaviour
             buttonGlow.color = Color.blue;
             doorScript.updateTrigger(false);
         }
-        else
-        {
+        else {
             buttonGlow.color = new Color(1, 0.5f, 0, 1);
             doorScript.updateTrigger(true);
         }
     }
 
-    private IEnumerator BeginTimer()
-    {
+    private IEnumerator BeginTimer() {
         float time = timer;
-        while (time > 0)
-        {
+        while (time > 0) {
             time -= 0.1f;
             timerSprite.transform.localScale = new Vector3(0.95f * (time / timer), timerSprite.transform.localScale.y, timerSprite.transform.localScale.z);
             yield return new WaitForSeconds(0.1f);
