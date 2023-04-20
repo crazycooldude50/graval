@@ -58,7 +58,7 @@ public class CameraController : MonoBehaviour
         }
 
         // If in last room, set camera right bound to custom object
-        if (roomNum == seperators.transform.childCount)
+       if (roomNum == seperators.transform.childCount)
         {
             xRight = GameObject.Find("Camera Right").transform.position.x;
         }
@@ -66,7 +66,7 @@ public class CameraController : MonoBehaviour
         {
             xRight = seperators.transform.GetChild(roomNum).Find("Camera Trigger").position.x;
         }
-
+       
         // Account for camera width is bound size
         xLeft += cameraWidth;
         xRight -= cameraWidth;
