@@ -44,13 +44,16 @@ public class GameManager : MonoBehaviour
                 {
                     child.transform.position = roomStates[room][child];
                 }
+                Debug.Log(roomNumber);
                 if(roomNumber == 1)
                 {
                     player.transform.position = GameObject.Find("Level Start").transform.position;
                 }
                 else
                 {
-                    player.transform.position = GameObject.Find("Room Trigger " + roomNumber).transform.position;
+                    GameObject seperators = GameObject.Find("Room Seperators");
+                    GameObject roomTrigger = seperators.transform.GetChild(roomNumber - 2).gameObject;
+                    player.transform.position = roomTrigger.transform.Find("Room Trigger R").transform.position;
                 }
                 
             }

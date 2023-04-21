@@ -247,7 +247,7 @@ public class PlayerController : MonoBehaviour
     public void OnTriggerExit2D(Collider2D collider) 
         {
         string name = collider.gameObject.name;
-        debugMode.Log(roomNumber);
+        Debug.Log(roomNumber);
         if (string.Equals(name.Substring(0, 12), "Room Trigger"))
         {
 
