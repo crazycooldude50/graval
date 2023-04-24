@@ -14,6 +14,8 @@ public class GravityGun : MonoBehaviour
     [SerializeField] private float gravityAcceleration = 1f;
     [SerializeField] private float maxBeamLength = 20f;
 
+    [SerializeField] float beamDir;
+
     LineRenderer line;
 
     [SerializeField] private LayerMask gravityGunLayerMask;
@@ -35,65 +37,25 @@ public class GravityGun : MonoBehaviour
     void Update()
     {
         // Aim in 1 of 8 directions
-        Aim(aimDir);
+
+        Aim();
         Detect();
     }
 
-    void Aim(Vector2 lastAimDir)
+    void Aim()
     {
-        // Uses arrow keys to detect aim direction for gravity beam
 
-        /*
-        aimDir = new Vector2(Input.GetAxisRaw("HorizontalArrow"), Input.GetAxisRaw("VerticalArrow"));
-        bool edited = false;
+        // Get aim direction through arrow
+        aimDir.x = Input.GetAxisRaw("HorizontalArrow");
+        aimDir.y = Input.GetAxisRaw("VerticalArrow");
 
-        if (aimDir != lastAimDir)
-        {
-            edited = true;
-        }
-        */
-        
-        aimDir = new Vector2(0, 0);
-        bool edited = false;
 
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            aimDir.x = -1;
-            edited = true;
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            aimDir.x += 1;
-            edited = true;
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            aimDir.y = -1;
-            edited = true;
-        }
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            aimDir.y += 1;
-            edited = true;
-        }
-
-        // When a key is released, also set edited to true
-        if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            edited = true;
-        }
-        
         GameObject player = GameObject.Find("Player");
         int playerFlipped = player.GetComponent<PlayerController>().GetFlipped();
 
-        // Only correct aim when no input when not controlling an object
-        if (!edited)
-        {
-            aimDir = lastAimDir;
-        }
-
         // Flip player if aiming in opposite direction
-        float beamDir = transform.parent.transform.right.x;
+        beamDir = transform.parent.transform.right.x;
+
         //Debug.Log(transform.parent.transform.right);
         if (beamDir > 0)
         {
@@ -103,16 +65,20 @@ public class GravityGun : MonoBehaviour
         {
             beamDir = -1;
         }
-        if (beamDir != playerFlipped && aimDir.x != 0 && edited)
+
+        // If not aiming, default to player direction, FOR SOME REASON IT ALSO TURNS THE GUN WHEN THE PLAYER TURNS IDK WHY
+        if (aimDir == new Vector2(0, 0) && !controlling)
+        {
+            aimDir.x = playerFlipped;
+            Debug.Log("Changed aimdir");
+        }
+
+        // Turn player if aiming in opposite direction && not controlling anything
+        if (aimDir.x != playerFlipped && aimDir.x != 0 && !controlling)
         {
             player.GetComponent<PlayerController>().Flip((int)aimDir.x);
         }
 
-        // Turn around beam when player turns around
-        if (aimDir.x != playerFlipped && aimDir.y == 0 && !controlling)
-        {
-            aimDir.x = playerFlipped;
-        }
     }
 
     private void Detect()
@@ -137,8 +103,8 @@ public class GravityGun : MonoBehaviour
 
             if (aimBeam.collider.gameObject.tag == "Gravitizable")
             {
-                // Control hit object if Space is pressed
-                if (Input.GetKeyDown(KeyCode.V))
+                // Control hit object if Shift is pressed
+                if (Input.GetKeyDown(KeyCode.LeftShift))
                 {
                     float extraDistance = 0.1f;
 
@@ -167,7 +133,7 @@ public class GravityGun : MonoBehaviour
 
             // If space is released, or the line cast hits a different object, or the object goes out of range,
             // remove the object from the controlled list and reparent to self.
-            if (Input.GetKeyUp(KeyCode.V) || aimBeam.collider.gameObject != hitObject || Vector3.Distance(hand.transform.position, beamEndPoint.transform.position) > maxBeamLength)
+            if (Input.GetKeyUp(KeyCode.LeftShift) || aimBeam.collider.gameObject != hitObject || Vector3.Distance(hand.transform.position, beamEndPoint.transform.position) > maxBeamLength)
             {
                 beamEndPoint.transform.parent = transform.parent.transform;
                 beamEndPoint.transform.position = transform.parent.transform.position;
