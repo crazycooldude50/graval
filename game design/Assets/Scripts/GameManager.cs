@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
                 GameObject seperators = GameObject.Find("Room Seperators");
                 GameObject roomTrigger = seperators.transform.GetChild(roomNumber - 2).gameObject;
                 player.transform.position = roomTrigger.transform.Find("Room Trigger R").transform.position;
+                player.transform.position = new Vector3(player.transform.position.x + 1, player.transform.position.y, player.transform.position.z);
             }
 
         }
