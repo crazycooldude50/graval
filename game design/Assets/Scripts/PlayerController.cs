@@ -235,9 +235,8 @@ public class PlayerController : MonoBehaviour
         {
         string name = collider.gameObject.name;
         Debug.Log(roomNumber);
-        if (string.Equals(name.Substring(0, 12), "Room Trigger"))
+        if (string.Equals(name, "Room Trigger"))
         {
-
             if (rb2d.velocity.x < 0)
             {
                 roomNumber--;
