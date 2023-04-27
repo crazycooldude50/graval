@@ -70,7 +70,7 @@ public class GravityGun : MonoBehaviour
         if (aimDir == new Vector2(0, 0) && !controlling)
         {
             aimDir.x = playerFlipped;
-            Debug.Log("Changed aimdir");
+            
         }
 
         // Turn player if aiming in opposite direction && not controlling anything

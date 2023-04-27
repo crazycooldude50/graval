@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 260673867}
   - component: {fileID: 260673866}
   m_Layer: 11
-  m_Name: Level 1
+  m_Name: LevelTileMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17116,6 +17116,7 @@ MonoBehaviour:
   gravityStrength: 2
   gravityAcceleration: 1
   maxBeamLength: 20
+  beamDir: 0
   gravityGunLayerMask:
     serializedVersion: 2
     m_Bits: 3219
