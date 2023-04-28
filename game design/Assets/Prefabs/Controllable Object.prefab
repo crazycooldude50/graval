@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9010481222200647564}
   - component: {fileID: 3392099382627231023}
   - component: {fileID: 8120280055209078564}
+  - component: {fileID: 2581094236930567828}
   m_Layer: 10
   m_Name: Controllable Object
   m_TagString: Gravitizable
@@ -154,3 +155,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
+--- !u!114 &2581094236930567828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9010481222200647571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 986c2b8d763b6f9468d8738f0ed53253, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundDetectionMask:
+    serializedVersion: 2
+    m_Bits: 3328
+  floorVelocity: {x: 0, y: 0}
+  isGrounded: 0
+  force: {x: 0, y: 0}
+  terminalVelocity: -10
+  gravityStrength: -2

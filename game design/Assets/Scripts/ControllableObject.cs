@@ -58,9 +58,10 @@ public class ControllableObject : MonoBehaviour
         
         force.y = maxControlledGravity.y;
         
+        /*
         if (isPlayer && force.y != 0)
         {
-            if (gameObject.GetComponent<PlayerController>().isGrounded)
+            if (gameObject.GetComponent<RidingMovement>().isGrounded)
             {
                 force.y += gameObject.GetComponent<PlayerController>().gravityStrength + 0.5f;
             }
@@ -69,7 +70,7 @@ public class ControllableObject : MonoBehaviour
                 //force.y += 2;
             }
         }
-
+        */
         if (isControlledByGun)
         {
             if (maxControlledGravity.y == 0 && rb2d.velocity.y != 0)
@@ -82,16 +83,28 @@ public class ControllableObject : MonoBehaviour
                 }
             }
         }
+        /*
         else if (!isPlayer)
         {
-            force.y += baseGravityForce;
+            // if not grounded
+            if (!GetComponent<RidingMovement>().isGrounded)
+            {
+                force.y += baseGravityForce;
+            }
         }
-        
+        */
         if (rb2d.velocity.y < maxSpeed.y && maxControlledGravity.y == 0 && !isControlledByGun && !isPlayer)
         {
             force.y = 0;
             rb2d.velocity = new Vector2(rb2d.velocity.x, maxSpeed.y);
         }
+
+        // If being controlled, add 2 force to counteract gravity
+        if (maxControlledGravity.y != 0 || isControlledByGun)
+        {
+            force.y += 2;
+        }
+
 
         rb2d.AddForce(force * rb2d.mass);
     }
