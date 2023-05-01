@@ -7,9 +7,9 @@ public class RidingMovement : MonoBehaviour
     private BoxCollider2D bc2d;
     [SerializeField] private LayerMask groundDetectionMask;
     private GameObject lastGround = null;
-    [SerializeField] private Vector2 lastParentVel = new Vector2(0, 0);
+    [SerializeField] private Vector3 lastParentVel = new Vector2(0, 0);
 
-    [SerializeField] private Vector2 floorVelocity;
+    [SerializeField] private Vector3 floorVelocity;
 
     public bool isGrounded = false;
     [SerializeField] private Vector2 force;
@@ -50,43 +50,39 @@ public class RidingMovement : MonoBehaviour
         if (transform.parent.GetComponent<Rigidbody2D>() != null)
         {
             Rigidbody2D parentrb2d = transform.parent.GetComponent<Rigidbody2D>();
-            if (parentrb2d.isKinematic == false)
+            if (parentrb2d.isKinematic == false && parentrb2d.bodyType != RigidbodyType2D.Static)
             {
                 // push downwards because the riding hops for some reason
                 //GetComponent<Rigidbody2D>().AddForce(new Vector2(0, -1));
-                floorVelocity = parentrb2d.velocity;
+                floorVelocity = transform.parent.position;
 
-                /*
+                
                 // If it a new floor object is hit
                 if (lastGround != transform.parent.gameObject)
                 {
-                    GetComponent<Rigidbody2D>().velocity += floorVelocity;
+                    lastParentVel = floorVelocity;
                     lastGround = transform.parent.gameObject;
                 }
-                else*/
+                else
                 {
                     // Change velocity based on parent velocity changes
-                    if (floorVelocity != lastParentVel)
+                    if (floorVelocity.x != lastParentVel.x)
                     {
-                        //Debug.Log("Floor velocity changed");
-                        /*if (Mathf.Abs(floorVelocity.y - lastParentVel.y) > 0.5)
-                        {
-                            Debug.Log(floorVelocity - lastParentVel);
-                        }*/
-                        Debug.Log(floorVelocity - GetComponent<Rigidbody2D>().velocity);
-                        //GetComponent<Rigidbody2D>().velocity += floorVelocity - lastParentVel;
-
-                        GetComponent<Rigidbody2D>().velocity = floorVelocity;
-
-                        lastParentVel = floorVelocity;
+                        transform.position += new Vector3(floorVelocity.x - lastParentVel.x, 0, 0);
+                        
                     }
+                }
+                lastParentVel = floorVelocity;
+                if (gameObject.name == "Player")
+                {
+                    Debug.Log("WHY");
                 }
                 
             }
-            else
-            {
-                floorVelocity = new Vector2(0, 0);
-            }
+        }
+        else
+        {
+            floorVelocity = new Vector2(0, 0);
         }
 
         force = new Vector2(0, 0);
