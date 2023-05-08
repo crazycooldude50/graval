@@ -149,3 +149,9 @@ MonoBehaviour:
   groundDetectionMask:
     serializedVersion: 2
     m_Bits: 1024
+  lastParentVel: {x: 0, y: 0, z: 0}
+  floorVelocity: {x: 0, y: 0, z: 0}
+  isGrounded: 0
+  force: {x: 0, y: 0}
+  terminalVelocity: 0
+  gravityStrength: 0
